@@ -1,0 +1,35 @@
+# Build Chordsmith for MPC OS and attach the zip to a DRAFT release, with mpc-vst-plugins' reusable workflow
+# (its docs/RELEASING.md, "Releasing from CI"). mpc-vst-plugins is pinned to ONE commit in both places below.
+#
+# Until sd88me/mpc-vst-plugins#90 is merged, that commit lacks the wrapper and skin changes this port relies on
+# (Q-Link tick counting, tiles lit from MIDI, 47-character readouts, theme_tile_on, order=pads). Release by hand
+# from a checkout of that branch with tools/release.py (README, "Releasing") and bump both pins once it is in.
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version for the zip and INSTALL.md, e.g. 0.3.0
+        required: true
+        type: string
+      dry_run:
+        description: Build and package only (zip and skin previews as run artifacts, no draft release)
+        type: boolean
+        default: false
+
+jobs:
+  vst:
+    uses: sd88me/mpc-vst-plugins/.github/workflows/vst-release.yml@cdf1c9137b6e26b1ea86564e11eef6c082b28ff6
+    permissions: { contents: write }
+    with:
+      tag: chordsmith-vst-v${{ inputs.version }}
+      version: ${{ inputs.version }}
+      tools_ref: cdf1c9137b6e26b1ea86564e11eef6c082b28ff6
+      vst_dir: vst
+      build: vst/build.sh
+      host_test: vst/test.sh
+      about: "Chord tool: pads, keys or chord buttons play scale, set or custom chords with voicing, strum, arp and harp modes, MIDI out to other tracks and a built-in preview synth."
+      plugin_id: chordsmith
+      license: MIT
+      dry_run: ${{ inputs.dry_run }}
