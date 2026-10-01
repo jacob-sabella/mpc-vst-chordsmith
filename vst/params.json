@@ -1,0 +1,630 @@
+{
+  "name": "Chordsmith",
+  "params": [
+    {
+      "key": "key",
+      "name": "Key",
+      "options": [
+        "C",
+        "Db",
+        "D",
+        "Eb",
+        "E",
+        "F",
+        "F#",
+        "G",
+        "Ab",
+        "A",
+        "Bb",
+        "B"
+      ],
+      "default": 0
+    },
+    {
+      "key": "scale",
+      "name": "Scale",
+      "options": [
+        "Major",
+        "Minor",
+        "Harm Minor",
+        "Mel Minor",
+        "Dorian",
+        "Phrygian",
+        "Lydian",
+        "Mixolydian",
+        "Locrian"
+      ],
+      "default": 0
+    },
+    {
+      "key": "source",
+      "name": "Chords From",
+      "options": [
+        "Scale",
+        "Set",
+        "Custom"
+      ],
+      "default": 0
+    },
+    {
+      "key": "set",
+      "name": "Set",
+      "min": 0,
+      "max": 19,
+      "default": 0,
+      "display": "int",
+      "qlink_ticks": 3
+    },
+    {
+      "key": "extension",
+      "name": "Extension",
+      "options": [
+        "Triad",
+        "7th",
+        "9th",
+        "Sus2",
+        "Sus4"
+      ],
+      "default": 1
+    },
+    {
+      "key": "voicing",
+      "name": "Voicing",
+      "options": [
+        "Close",
+        "Drop 2",
+        "Drop 3",
+        "Spread"
+      ],
+      "default": 0
+    },
+    {
+      "key": "inversion",
+      "name": "Inversion",
+      "options": [
+        "Root",
+        "1st",
+        "2nd",
+        "3rd"
+      ],
+      "default": 0
+    },
+    {
+      "key": "octave",
+      "name": "Octave",
+      "options": [
+        "-2",
+        "-1",
+        "0",
+        "+1",
+        "+2"
+      ],
+      "default": 2
+    },
+    {
+      "key": "voice_lead",
+      "name": "Voice Lead",
+      "options": [
+        "Off",
+        "On"
+      ],
+      "default": 1
+    },
+    {
+      "key": "bass",
+      "name": "Bass",
+      "options": [
+        "Off",
+        "On"
+      ],
+      "default": 0
+    },
+    {
+      "key": "strum",
+      "name": "Strum",
+      "min": 0,
+      "max": 100,
+      "default": 0,
+      "unit": "ms",
+      "display": "int"
+    },
+    {
+      "key": "strum_dir",
+      "name": "Strum Dir",
+      "options": [
+        "Up",
+        "Down"
+      ],
+      "default": 0
+    },
+    {
+      "key": "vel_mode",
+      "name": "Velocity",
+      "options": [
+        "Played",
+        "Fixed"
+      ],
+      "default": 0
+    },
+    {
+      "key": "velocity",
+      "name": "Fixed Vel",
+      "min": 1,
+      "max": 127,
+      "default": 100,
+      "display": "int"
+    },
+    {
+      "key": "input",
+      "name": "Play From",
+      "options": [
+        "Pads",
+        "Keys",
+        "Buttons"
+      ],
+      "default": 0
+    },
+    {
+      "key": "pad_base",
+      "name": "Pad 1 Note",
+      "min": 0,
+      "max": 120,
+      "default": 36,
+      "display": "int"
+    },
+    {
+      "key": "channel",
+      "name": "MIDI Ch",
+      "min": 1,
+      "max": 16,
+      "default": 2,
+      "display": "int",
+      "qlink_ticks": 3
+    },
+    {
+      "key": "slot_1",
+      "name": "Chord 1",
+      "display": "string"
+    },
+    {
+      "key": "slot_2",
+      "name": "Chord 2",
+      "display": "string"
+    },
+    {
+      "key": "slot_3",
+      "name": "Chord 3",
+      "display": "string"
+    },
+    {
+      "key": "slot_4",
+      "name": "Chord 4",
+      "display": "string"
+    },
+    {
+      "key": "slot_5",
+      "name": "Chord 5",
+      "display": "string"
+    },
+    {
+      "key": "slot_6",
+      "name": "Chord 6",
+      "display": "string"
+    },
+    {
+      "key": "slot_7",
+      "name": "Chord 7",
+      "display": "string"
+    },
+    {
+      "key": "slot_8",
+      "name": "Chord 8",
+      "display": "string"
+    },
+    {
+      "key": "set_name",
+      "name": "Set Name",
+      "display": "string",
+      "type": "readout"
+    },
+    {
+      "key": "chord",
+      "name": "Now Playing",
+      "display": "string",
+      "type": "readout"
+    },
+    {
+      "key": "status",
+      "name": "Status",
+      "display": "string",
+      "type": "readout"
+    },
+    {
+      "key": "set_prev",
+      "name": "Set -",
+      "min": 0,
+      "max": 1,
+      "momentary": true,
+      "step_of": "set",
+      "step_delta": -1
+    },
+    {
+      "key": "set_next",
+      "name": "Set +",
+      "min": 0,
+      "max": 1,
+      "momentary": true,
+      "step_of": "set",
+      "step_delta": 1
+    },
+    {
+      "key": "pad_base_prev",
+      "name": "Pad Note -",
+      "min": 0,
+      "max": 1,
+      "momentary": true,
+      "step_of": "pad_base",
+      "step_delta": -1
+    },
+    {
+      "key": "pad_base_next",
+      "name": "Pad Note +",
+      "min": 0,
+      "max": 1,
+      "momentary": true,
+      "step_of": "pad_base",
+      "step_delta": 1
+    },
+    {
+      "key": "channel_prev",
+      "name": "MIDI Ch -",
+      "min": 0,
+      "max": 1,
+      "momentary": true,
+      "step_of": "channel",
+      "step_delta": -1
+    },
+    {
+      "key": "channel_next",
+      "name": "MIDI Ch +",
+      "min": 0,
+      "max": 1,
+      "momentary": true,
+      "step_of": "channel",
+      "step_delta": 1
+    },
+    {
+      "key": "panic",
+      "name": "All Notes Off",
+      "min": 0,
+      "max": 1,
+      "momentary": true
+    },
+    {
+      "key": "key_map",
+      "name": "Key Map",
+      "options": [
+        "White Keys",
+        "Scale Notes"
+      ],
+      "default": 0
+    },
+    {
+      "key": "split",
+      "name": "Split",
+      "options": [
+        "Off",
+        "On"
+      ],
+      "default": 0
+    },
+    {
+      "key": "split_note",
+      "name": "Split Point",
+      "min": 0,
+      "max": 127,
+      "default": 60,
+      "display": "int"
+    },
+    {
+      "key": "split_note_prev",
+      "name": "Split -",
+      "min": 0,
+      "max": 1,
+      "momentary": true,
+      "step_of": "split_note",
+      "step_delta": -1
+    },
+    {
+      "key": "split_note_next",
+      "name": "Split +",
+      "min": 0,
+      "max": 1,
+      "momentary": true,
+      "step_of": "split_note",
+      "step_delta": 1
+    },
+    {
+      "key": "split_name",
+      "name": "Split Note",
+      "display": "string",
+      "type": "readout"
+    },
+    {
+      "key": "sound",
+      "name": "Preview Synth",
+      "options": [
+        "Off",
+        "On"
+      ],
+      "default": 1
+    },
+    {
+      "key": "synth_level",
+      "name": "Preview Level",
+      "min": 0,
+      "max": 100,
+      "default": 70,
+      "unit": "%",
+      "display": "int"
+    },
+    {
+      "key": "chord_type",
+      "name": "Chord Type",
+      "options": [
+        "Auto",
+        "Dim",
+        "Min",
+        "Maj",
+        "Sus4"
+      ],
+      "default": 0
+    },
+    {
+      "key": "ext_6",
+      "name": "Add 6",
+      "options": [
+        "Off",
+        "On"
+      ],
+      "default": 0
+    },
+    {
+      "key": "ext_m7",
+      "name": "Add m7",
+      "options": [
+        "Off",
+        "On"
+      ],
+      "default": 0
+    },
+    {
+      "key": "ext_maj7",
+      "name": "Add maj7",
+      "options": [
+        "Off",
+        "On"
+      ],
+      "default": 0
+    },
+    {
+      "key": "ext_9",
+      "name": "Add 9",
+      "options": [
+        "Off",
+        "On"
+      ],
+      "default": 0
+    },
+    {
+      "key": "pad_buttons",
+      "name": "Pad Buttons",
+      "options": [
+        "Off",
+        "On"
+      ],
+      "default": 1
+    },
+    {
+      "key": "latch",
+      "name": "Latch",
+      "options": [
+        "Off",
+        "On"
+      ],
+      "default": 0
+    },
+    {
+      "key": "voice_dial",
+      "name": "Voicing Dial",
+      "min": -12,
+      "max": 12,
+      "default": 0,
+      "display": "int",
+      "qlink_ticks": 2
+    },
+    {
+      "key": "perform",
+      "name": "Perform",
+      "options": [
+        "Chord",
+        "Slop",
+        "Arp Up",
+        "Arp Down",
+        "Arp Up/Dn",
+        "Harp",
+        "Pattern 1",
+        "Pattern 2",
+        "Pattern 3"
+      ],
+      "default": 0
+    },
+    {
+      "key": "rate",
+      "name": "Rate",
+      "options": [
+        "1/4",
+        "1/8",
+        "1/8T",
+        "1/16",
+        "1/16T",
+        "1/32"
+      ],
+      "default": 3
+    },
+    {
+      "key": "bass_ch",
+      "name": "Bass Ch",
+      "min": 0,
+      "max": 16,
+      "default": 0,
+      "display": "int",
+      "qlink_ticks": 3
+    },
+    {
+      "key": "bass_ch_prev",
+      "name": "Bass Ch -",
+      "min": 0,
+      "max": 1,
+      "momentary": true,
+      "step_of": "bass_ch",
+      "step_delta": -1
+    },
+    {
+      "key": "bass_ch_next",
+      "name": "Bass Ch +",
+      "min": 0,
+      "max": 1,
+      "momentary": true,
+      "step_of": "bass_ch",
+      "step_delta": 1
+    },
+    {
+      "key": "bass_ch_name",
+      "name": "Bass Channel",
+      "display": "string",
+      "type": "readout"
+    },
+    {
+      "key": "output",
+      "name": "Output",
+      "display": "string",
+      "type": "readout"
+    },
+    {
+      "key": "buttons_hint",
+      "name": "Buttons Hint",
+      "display": "string",
+      "type": "readout"
+    },
+    {
+      "key": "edit",
+      "name": "Edit Pad",
+      "min": 0,
+      "max": 7,
+      "default": 0,
+      "display": "int"
+    },
+    {
+      "key": "edit_prev",
+      "name": "Edit Pad -",
+      "min": 0,
+      "max": 1,
+      "momentary": true,
+      "step_of": "edit",
+      "step_delta": -1
+    },
+    {
+      "key": "edit_next",
+      "name": "Edit Pad +",
+      "min": 0,
+      "max": 1,
+      "momentary": true,
+      "step_of": "edit",
+      "step_delta": 1
+    },
+    {
+      "key": "edit_name",
+      "name": "Edit Pad Name",
+      "display": "string",
+      "type": "readout"
+    },
+    {
+      "key": "edit_root",
+      "name": "Root",
+      "min": 0,
+      "max": 11,
+      "default": 0,
+      "display": "int"
+    },
+    {
+      "key": "edit_root_prev",
+      "name": "Root -",
+      "min": 0,
+      "max": 1,
+      "momentary": true,
+      "step_of": "edit_root",
+      "step_delta": -1
+    },
+    {
+      "key": "edit_root_next",
+      "name": "Root +",
+      "min": 0,
+      "max": 1,
+      "momentary": true,
+      "step_of": "edit_root",
+      "step_delta": 1
+    },
+    {
+      "key": "edit_root_name",
+      "name": "Root Name",
+      "display": "string",
+      "type": "readout"
+    },
+    {
+      "key": "edit_qual",
+      "name": "Chord",
+      "min": 0,
+      "max": 42,
+      "default": 0,
+      "display": "int"
+    },
+    {
+      "key": "edit_qual_prev",
+      "name": "Chord -",
+      "min": 0,
+      "max": 1,
+      "momentary": true,
+      "step_of": "edit_qual",
+      "step_delta": -1
+    },
+    {
+      "key": "edit_qual_next",
+      "name": "Chord +",
+      "min": 0,
+      "max": 1,
+      "momentary": true,
+      "step_of": "edit_qual",
+      "step_delta": 1
+    },
+    {
+      "key": "edit_qual_name",
+      "name": "Chord Name",
+      "display": "string",
+      "type": "readout"
+    },
+    {
+      "key": "copy",
+      "name": "Copy Chords",
+      "min": 0,
+      "max": 1,
+      "momentary": true
+    },
+    {
+      "key": "trail",
+      "name": "Played",
+      "display": "string",
+      "type": "readout"
+    }
+  ]
+}

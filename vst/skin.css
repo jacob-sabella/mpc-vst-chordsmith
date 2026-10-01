@@ -1,0 +1,11 @@
+:root { --title-size: 28px; --label-size: 22px; --seg-size: 19px; --button-size: 21px; }
+
+/* neon: pink titles, purple frame lines, both with a soft glow */
+.td3 .frame-title { fill: var(--accent-hi); filter: drop-shadow(0 0 6px rgba(255, 43, 214, 0.65)); }
+.td3 .frame-border { filter: drop-shadow(0 0 5px rgba(166, 77, 255, 0.45)); }
+.frame-rule { stroke: #ff2bd6; stroke-opacity: 0.45; }
+.knob-arc, .knob-pointer { filter: drop-shadow(0 0 4px rgba(255, 43, 214, 0.8)); }
+.knob-track { filter: drop-shadow(0 0 3px rgba(166, 77, 255, 0.6)); }
+.on .pill-thumb { filter: drop-shadow(0 0 6px rgba(255, 43, 214, 0.9)); }
+.button-bg { filter: drop-shadow(0 0 6px rgba(255, 43, 214, 0.55)); }
+.arrow { fill: #ff2bd6; }

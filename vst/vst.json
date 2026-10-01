@@ -1,0 +1,28 @@
+{
+  "name": "Chordsmith",
+  "vendor": "jacob-sabella",
+  "uid": "ChSm",
+  "version": 1000,
+  "so": "chordsmith.so",
+  "params": "params.json",
+  "layout": "layout.conf",
+  "art": "html",
+  "defines": {"HAS_LFO_BPM": 1},
+  "build": {
+    "root": "..",
+    "sources": [
+      "src/chordsmith.c",
+      "src/theory.c",
+      "src/seq_out.c",
+      "src/synth.c"
+    ],
+    "cflags": [
+      "-Isrc"
+    ],
+    "libs": [
+      "-lm",
+      "-ldl",
+      "-lpthread"
+    ]
+  }
+}

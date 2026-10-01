@@ -1,0 +1,11 @@
+plugin /tmp/chordsmith.so: instrument, 76 params, open 2.9 ms; block 128 @ 44100 Hz = 2902 us budget
+stage               mean%     p99%     max%  threads%    peak
+idle                  0.8      2.1      4.1       0.0    0.00
+1 voices              1.8      3.2      3.9       0.0    0.38
+4 voices              2.7      4.4     10.4       0.0    0.58
+8 voices              3.9      5.5     13.7      -0.0    0.76
+16 voices             3.9      5.6     14.8      -0.0    0.74
+q-link sweep          3.1      7.5     11.0      -0.0    0.79
+release tail          1.4      5.4      6.9       0.0    0.22
+worst p99 7.5%, worst block 14.8%, background threads up to 0.0% of a core -> PASS
+{"plugin":"/tmp/chordsmith.so","instrument":1,"open_ms":2.9,"p99_pct":7.5,"max_pct":14.8,"threads_pct":0.0,"verdict":"PASS"}
