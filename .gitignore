@@ -1,0 +1,15 @@
+# Build output (vst/build.sh, vst/test.sh)
+build/
+dist/
+*.o
+*.so
+*.zip
+
+# Editors, OS and tooling
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+.claude/
+*.log
