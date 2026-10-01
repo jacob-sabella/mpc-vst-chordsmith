@@ -9,6 +9,11 @@ It all runs on the device.
 **Status:** passes the offline tests (x86, ASan/UBSan), builds for armhf, and every function has been run
 on an MPC Key 37 (firmware 3.9.1.2) from the screen, pads and keys.
 
+![Chordsmith on the device: pads, keys, chord sets, the chord builder, voicings, chord buttons, arpeggios and patterns, MIDI out](docs/chordsmith.gif)
+
+The same tour as a video, recorded from the device screen while the pads, keys and touchscreen were driven
+from a script: [docs/chordsmith.mp4](docs/chordsmith.mp4) (two minutes, with captions).
+
 ## What it does
 
 - **PLAY**: **PLAY FROM** picks what plays the chords (PADS, KEYS or the chord BUTTONS), and the
