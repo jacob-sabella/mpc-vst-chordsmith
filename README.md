@@ -91,7 +91,7 @@ readouts, `theme_tile_on`, `order=pads`).
 
 ```sh
 vst/test.sh    # offline: theory and engine tests, then mpc-vst-plugins' host test (x86, ASan/UBSan)
-vst/build.sh   # vst/build/chordsmith.so, the skin and pluginlist-entry.xml (armhf, glibc <= 2.36)
+vst/build.sh   # vst/build/chordsmith.so, the skin (with the INSTRUMENTS browser tile and a Default preset) and pluginlist-entry.xml (armhf, glibc <= 2.36)
 ```
 
 ### Releasing

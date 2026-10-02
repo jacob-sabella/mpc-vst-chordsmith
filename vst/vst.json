@@ -7,6 +7,7 @@
   "params": "params.json",
   "layout": "layout.conf",
   "art": "html",
+  "tile": "art/chordsmith_tile_270x110.png",
   "defines": {"HAS_LFO_BPM": 1},
   "build": {
     "root": "..",
