@@ -18,7 +18,8 @@
         "Bb",
         "B"
       ],
-      "default": 0
+      "default": 0,
+      "qlink_ticks": 6
     },
     {
       "key": "scale",
@@ -34,7 +35,8 @@
         "Mixolydian",
         "Locrian"
       ],
-      "default": 0
+      "default": 0,
+      "qlink_ticks": 6
     },
     {
       "key": "source",
@@ -44,7 +46,8 @@
         "Set",
         "Custom"
       ],
-      "default": 0
+      "default": 0,
+      "qlink_ticks": 6
     },
     {
       "key": "set",
@@ -52,8 +55,7 @@
       "min": 0,
       "max": 19,
       "default": 0,
-      "display": "int",
-      "qlink_ticks": 3
+      "display": "int"
     },
     {
       "key": "extension",
@@ -65,7 +67,8 @@
         "Sus2",
         "Sus4"
       ],
-      "default": 1
+      "default": 1,
+      "qlink_ticks": 6
     },
     {
       "key": "voicing",
@@ -76,7 +79,8 @@
         "Drop 3",
         "Spread"
       ],
-      "default": 0
+      "default": 0,
+      "qlink_ticks": 6
     },
     {
       "key": "inversion",
@@ -87,7 +91,8 @@
         "2nd",
         "3rd"
       ],
-      "default": 0
+      "default": 0,
+      "qlink_ticks": 6
     },
     {
       "key": "octave",
@@ -99,7 +104,8 @@
         "+1",
         "+2"
       ],
-      "default": 2
+      "default": 2,
+      "qlink_ticks": 6
     },
     {
       "key": "voice_lead",
@@ -108,7 +114,8 @@
         "Off",
         "On"
       ],
-      "default": 1
+      "default": 1,
+      "qlink_ticks": 6
     },
     {
       "key": "bass",
@@ -117,7 +124,8 @@
         "Off",
         "On"
       ],
-      "default": 0
+      "default": 0,
+      "qlink_ticks": 6
     },
     {
       "key": "strum",
@@ -135,7 +143,8 @@
         "Up",
         "Down"
       ],
-      "default": 0
+      "default": 0,
+      "qlink_ticks": 6
     },
     {
       "key": "vel_mode",
@@ -144,7 +153,8 @@
         "Played",
         "Fixed"
       ],
-      "default": 0
+      "default": 0,
+      "qlink_ticks": 6
     },
     {
       "key": "velocity",
@@ -162,7 +172,8 @@
         "Keys",
         "Buttons"
       ],
-      "default": 0
+      "default": 0,
+      "qlink_ticks": 6
     },
     {
       "key": "pad_base",
@@ -178,8 +189,7 @@
       "min": 1,
       "max": 16,
       "default": 2,
-      "display": "int",
-      "qlink_ticks": 3
+      "display": "int"
     },
     {
       "key": "slot_1",
@@ -307,7 +317,8 @@
         "White Keys",
         "Scale Notes"
       ],
-      "default": 0
+      "default": 0,
+      "qlink_ticks": 6
     },
     {
       "key": "split",
@@ -316,7 +327,8 @@
         "Off",
         "On"
       ],
-      "default": 0
+      "default": 0,
+      "qlink_ticks": 6
     },
     {
       "key": "split_note",
@@ -357,7 +369,8 @@
         "Off",
         "On"
       ],
-      "default": 1
+      "default": 1,
+      "qlink_ticks": 6
     },
     {
       "key": "synth_level",
@@ -378,7 +391,8 @@
         "Maj",
         "Sus4"
       ],
-      "default": 0
+      "default": 0,
+      "qlink_ticks": 6
     },
     {
       "key": "ext_6",
@@ -387,7 +401,8 @@
         "Off",
         "On"
       ],
-      "default": 0
+      "default": 0,
+      "qlink_ticks": 6
     },
     {
       "key": "ext_m7",
@@ -396,7 +411,8 @@
         "Off",
         "On"
       ],
-      "default": 0
+      "default": 0,
+      "qlink_ticks": 6
     },
     {
       "key": "ext_maj7",
@@ -405,7 +421,8 @@
         "Off",
         "On"
       ],
-      "default": 0
+      "default": 0,
+      "qlink_ticks": 6
     },
     {
       "key": "ext_9",
@@ -414,7 +431,8 @@
         "Off",
         "On"
       ],
-      "default": 0
+      "default": 0,
+      "qlink_ticks": 6
     },
     {
       "key": "pad_buttons",
@@ -423,7 +441,8 @@
         "Off",
         "On"
       ],
-      "default": 1
+      "default": 1,
+      "qlink_ticks": 6
     },
     {
       "key": "latch",
@@ -432,7 +451,8 @@
         "Off",
         "On"
       ],
-      "default": 0
+      "default": 0,
+      "qlink_ticks": 6
     },
     {
       "key": "voice_dial",
@@ -440,8 +460,7 @@
       "min": -12,
       "max": 12,
       "default": 0,
-      "display": "int",
-      "qlink_ticks": 2
+      "display": "int"
     },
     {
       "key": "perform",
@@ -457,7 +476,8 @@
         "Pattern 2",
         "Pattern 3"
       ],
-      "default": 0
+      "default": 0,
+      "qlink_ticks": 6
     },
     {
       "key": "rate",
@@ -470,7 +490,8 @@
         "1/16T",
         "1/32"
       ],
-      "default": 3
+      "default": 3,
+      "qlink_ticks": 6
     },
     {
       "key": "bass_ch",
@@ -478,8 +499,7 @@
       "min": 0,
       "max": 16,
       "default": 0,
-      "display": "int",
-      "qlink_ticks": 3
+      "display": "int"
     },
     {
       "key": "bass_ch_prev",
