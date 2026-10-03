@@ -21,12 +21,12 @@ on:
 
 jobs:
   vst:
-    uses: jacob-sabella/mpc-vst-plugins/.github/workflows/vst-release.yml@8bb7c49432b683da7a3aa537a1f479417cc27899
+    uses: jacob-sabella/mpc-vst-plugins/.github/workflows/vst-release.yml@6541253077778018d540c72dfe683576798ae0f1
     permissions: { contents: write }
     with:
       tag: chordsmith-vst-v${{ inputs.version }}
       version: ${{ inputs.version }}
-      tools_ref: 8bb7c49432b683da7a3aa537a1f479417cc27899
+      tools_ref: 6541253077778018d540c72dfe683576798ae0f1
       vst_dir: vst
       build: vst/build.sh
       host_test: vst/test.sh
