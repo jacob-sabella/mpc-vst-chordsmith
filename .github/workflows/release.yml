@@ -1,10 +1,7 @@
 # Build Chordsmith for MPC OS and attach the zip to a DRAFT release, with mpc-vst-plugins' reusable workflow
-# (its docs/RELEASING.md, "Releasing from CI"). mpc-vst-plugins is pinned to ONE commit in both places below.
-#
-# Until sd88me/mpc-vst-plugins#90 is merged, upstream lacks the wrapper and skin changes this port relies on
-# (Q-Link tick counting, tiles lit from MIDI, 47-character readouts, theme_tile_on, order=pads, scale_names,
-# the browser tile), so both pins name that PR's head: the workflow from the fork, and tools_ref, which the
-# workflow checks out from upstream (a PR's commits are fetchable there). Point both at upstream once it is in.
+# (its docs/RELEASING.md, "Releasing from CI"). mpc-vst-plugins is pinned to ONE commit in both places below:
+# the workflow itself, and tools_ref, which the workflow checks out for the skin and packaging tools. Bump
+# both together when picking up a newer mpc-vst-plugins.
 name: Release
 
 on:
@@ -21,12 +18,12 @@ on:
 
 jobs:
   vst:
-    uses: jacob-sabella/mpc-vst-plugins/.github/workflows/vst-release.yml@6541253077778018d540c72dfe683576798ae0f1
+    uses: sd88me/mpc-vst-plugins/.github/workflows/vst-release.yml@5b60c7bbbb6ec57f1defe4cd2d9e151f014fcdc7
     permissions: { contents: write }
     with:
       tag: chordsmith-vst-v${{ inputs.version }}
       version: ${{ inputs.version }}
-      tools_ref: 6541253077778018d540c72dfe683576798ae0f1
+      tools_ref: 5b60c7bbbb6ec57f1defe4cd2d9e151f014fcdc7
       vst_dir: vst
       build: vst/build.sh
       host_test: vst/test.sh

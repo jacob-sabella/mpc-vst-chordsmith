@@ -84,10 +84,6 @@ the pad buttons.
 
 Needs Docker (with QEMU for arm32v7) and a checkout of
 [mpc-vst-plugins](https://github.com/sd88me/mpc-vst-plugins) next to this repo (or `MPC_VST=/path`).
-Until [mpc-vst-plugins#90](https://github.com/sd88me/mpc-vst-plugins/pull/90) is merged, use that pull
-request's branch (`qlink-travel` of [jacob-sabella/mpc-vst-plugins](https://github.com/jacob-sabella/mpc-vst-plugins)):
-Chordsmith relies on its wrapper and skin changes (Q-Link tick counting, tiles lit from MIDI, 47-character
-readouts, `theme_tile_on`, `order=pads`).
 
 ```sh
 vst/test.sh    # offline: theory and engine tests, then mpc-vst-plugins' host test (x86, ASan/UBSan)
@@ -96,15 +92,15 @@ vst/build.sh   # vst/build/chordsmith.so, the skin (with the INSTRUMENTS browser
 
 ### Releasing
 
-`.github/workflows/release.yml` builds a draft release with mpc-vst-plugins' reusable workflow once that pull
-request is in (bump its two pins to the merge commit). Until then, release by hand from the branch above, as
-mpc-vst-plugins' `docs/RELEASING.md` describes:
+`.github/workflows/release.yml` builds a draft release with mpc-vst-plugins' reusable workflow
+(`workflow_dispatch`, pass a version). To release by hand instead, as mpc-vst-plugins' `docs/RELEASING.md`
+describes:
 
 ```sh
 B=vst/build; python3 $MPC_VST/tools/release.py --so $B/chordsmith.so --skin "$B/skin/jacob-sabella - VST - Chordsmith" \
-  --entry $B/pluginlist-entry.xml --version 0.3.0 --repo jacob-sabella/mpc-vst-chordsmith --license MIT \
+  --entry $B/pluginlist-entry.xml --version 1.0.0 --repo jacob-sabella/mpc-vst-chordsmith --license MIT \
   --bench vst/bench.txt -o dist
-python3 $MPC_VST/tools/catalog_check.py dist/Chordsmith-0.3.0-mpc-armv7.zip --catalog
+python3 $MPC_VST/tools/catalog_check.py dist/Chordsmith-1.0.0-mpc-armv7.zip --catalog
 ```
 
 `tested.json` lists the devices and firmwares a version has been tested on (the catalog shows it as "Tested on").
