@@ -677,6 +677,35 @@ static void test_late_echo(void) {
     e->destroy(s);
 }
 
+/* The preview synth with a lot going on (four 9th chords held at full velocity, then a fast run of more):
+ * loud, but never clipped and never wrapped; and no click when a voice is stolen. */
+static void test_synth_load(void) {
+    const mpc_engine_t *e = mpc_engine();
+    void *s = e->create(NULL);
+    int16_t out[256];
+    run(e, s, 200);
+    e->set_param(s, "input", "1"); e->set_param(s, "extension", "2"); e->set_param(s, "synth_level", "100");
+    long peak = 0, jump = 0;
+    int prev = 0;
+    for (int k = 0; k < 4; k++) send(e, s, 0x90, 60 + 2 * k, 127);
+    for (int b = 0; b < 400; b++) {
+        if (b % 8 == 0 && b < 200) send(e, s, 0x90, 48 + b / 8 % 24, 127);   /* a run of chords on top, never released */
+        e->render(s, out, 128);
+        for (int i = 0; i < 256; i += 2) {
+            if (labs(out[i]) > peak) peak = labs(out[i]);
+            if (labs(out[i] - prev) > jump) jump = labs(out[i] - prev);
+            prev = out[i];
+        }
+    }
+    CHECK(peak > 8000, "synth under load is still loud (peak %ld)", peak);
+    CHECK(peak <= 29200, "synth under load is held at -1 dBFS by the limiter (peak %ld)", peak);
+    CHECK(jump < 12000, "no clicks: largest step between samples %ld", jump);
+    send(e, s, 0xb0, 123, 0); run(e, s, 300);
+    e->render(s, out, 128); peak = 0; for (int i = 0; i < 256; i++) if (labs(out[i]) > peak) peak = labs(out[i]);
+    CHECK(peak == 0, "silent after all notes off (peak %ld)", peak);
+    e->destroy(s);
+}
+
 int main(void) {
 #ifdef HAVE_ALSA
     CHECK(sizeof(snd_seq_event_t) == 28, "snd_seq_event_t is %zu bytes", sizeof(snd_seq_event_t));
@@ -689,6 +718,7 @@ int main(void) {
     test_engine();
     test_perform();
     test_late_echo();
+    test_synth_load();
     printf("%s\n", fails ? "FAILED" : "PASSED");
     return fails ? 1 : 0;
 }

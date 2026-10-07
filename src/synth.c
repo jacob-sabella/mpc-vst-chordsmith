@@ -36,21 +36,25 @@ void synth_note(synth_t *s, int note, int vel) {
             if (s->v[i].stage && s->v[i].stage != 3 && s->v[i].note == note) s->v[i].stage = 3;
         return;
     }
-    /* the same note again retriggers its voice; else a free voice; else the oldest */
+    /* the same note again retriggers its voice; else a free voice; else the quietest releasing one; else the
+     * oldest. A taken voice keeps its phase and level and glides from there (the attack starts at its level),
+     * so stealing never jumps the waveform: a jump to zero clicked. */
     int pick = -1;
     for (int i = 0; i < SYNTH_VOICES && pick < 0; i++) if (s->v[i].stage && s->v[i].note == note) pick = i;
     for (int i = 0; i < SYNTH_VOICES && pick < 0; i++) if (!s->v[i].stage) pick = i;
+    for (int i = 0; i < SYNTH_VOICES; i++)
+        if (s->v[i].stage == 3 && (pick < 0 || (s->v[pick].stage == 3 && s->v[i].env < s->v[pick].env))) pick = i;
     if (pick < 0) {
         pick = 0;
         for (int i = 1; i < SYNTH_VOICES; i++) if (s->age[i] < s->age[pick]) pick = i;
     }
     synth_voice_t *v = &s->v[pick];
-    if (v->note != note || !v->stage) { v->ph = 0; v->env = 0; }
+    if (!v->stage) { v->ph = 0; v->env = 0; }
     v->note = note;
     v->stage = 1;
     v->inc = 440.0f * powf(2.0f, (note - 69) / 12.0f) / SR;
     v->bright = 1.0f;
-    v->gain = 0.16f * (0.25f + 0.75f * vel / 127.0f);
+    v->gain = 0.10f * (0.25f + 0.75f * vel / 127.0f);   /* a 5-note chord at full velocity peaks near 0.5 */
     s->age[pick] = ++s->clock;
 }
 

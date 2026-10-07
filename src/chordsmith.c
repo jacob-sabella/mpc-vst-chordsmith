@@ -23,6 +23,8 @@
 #define NUM_IDS (128 + NUM_SLOTS)   /* input notes, then one id per screen slot */
 #define ECHO_MS 250           /* our own note coming back this soon on the keys' own channel is an echo, not a key (see midi()) */
 #define LATE_MS 2000          /* on any other channel, this late still: MPC under load returned echoes after 400 ms and more */
+#define LIM_CEIL 0.89f        /* the preview synth's limiter: peaks held at -1 dBFS */
+#define LIM_RELEASE (1.0f / (0.12f * SR))
 #define MAX_OUT 32            /* notes one held chord can send (a harp runs a chord up four octaves) */
 /* PERFORM: how a held chord plays. CHORD = all together (spread by STRUM), SLOP = each note late by a random
  * part of STRUM, ARP = one note at a time at RATE, HARP = up four octaves at a quarter of RATE, PATTERN = the
@@ -93,6 +95,7 @@ typedef struct {
     long on_at[16][128], off_at[16][128];
     synth_t synth;
     float mix[256];
+    float lim;                   /* the preview synth's limiter gain (render()) */
     /* button chords: pad buttons held (audio thread) */
     unsigned btn_types;          /* bit t: type button t (BT_DIM..BT_SUS) held */
     int btn_last;                /* the type button pressed last that is still held, 0 = none */
@@ -462,6 +465,7 @@ static void *create(const char *dir) {
     snprintf(s->text[0], sizeof s->text[0], "PLAY A PAD, OR TAP A CHORD");
     atomic_store(&s->text_idx, 0);
     synth_reset(&s->synth);
+    s->lim = 1.0f;
     return s;
 }
 
@@ -559,11 +563,15 @@ static void render(void *inst, int16_t *out, int frames) {
         int n = frames - done > 128 ? 128 : frames - done;
         memset(s->mix, 0, sizeof s->mix);
         synth_render(&s->synth, s->mix, n, s->p[P_LEVEL] / 100.0f);
-        for (int i = 0; i < 2 * n; i++) {
-            float x = s->mix[i];   /* soft clip, so a big chord bends instead of wrapping */
-            if (x > 3.0f) x = 3.0f; else if (x < -3.0f) x = -3.0f;
-            x = x * (27.0f + x * x) / (27.0f + 9.0f * x * x);
-            out[2 * done + i] = (int16_t)lrintf(x * 32767.0f);
+        /* a limiter, not a clipper: many chords at once turn down together instead of distorting. The gain drops
+         * at once to keep a frame under LIM_CEIL and comes back over about 120 ms. */
+        for (int f = 0; f < n; f++) {
+            float l = s->mix[2 * f], r = s->mix[2 * f + 1], a = fabsf(l) > fabsf(r) ? fabsf(l) : fabsf(r);
+            s->lim += (1.0f - s->lim) * LIM_RELEASE;
+            if (a * s->lim > LIM_CEIL) s->lim = LIM_CEIL / a;
+            l *= s->lim; r *= s->lim;
+            out[2 * (done + f)] = (int16_t)lrintf((l > 1.0f ? 1.0f : l < -1.0f ? -1.0f : l) * 32767.0f);
+            out[2 * (done + f) + 1] = (int16_t)lrintf((r > 1.0f ? 1.0f : r < -1.0f ? -1.0f : r) * 32767.0f);
         }
         done += n;
     }
