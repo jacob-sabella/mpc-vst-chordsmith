@@ -642,6 +642,41 @@ static void test_perform(void) {
     e->destroy(s);
 }
 
+/* What the device did (2026-10-06, Key 37): with MPC busy, our port's echoes came back later than the echo
+ * window. A late echo of a quick key tap then played as a key: more chords, more echoes, and the keys' channel
+ * taken for the echoes' own (status "SAME CH AS KEYS"). Late echoes must play nothing, however late. */
+static void test_late_echo(void) {
+    const mpc_engine_t *e = mpc_engine();
+    char buf[256];
+    void *s = e->create(NULL);
+    run(e, s, 200);                                  /* past the quiet time */
+    e->set_param(s, "input", "1");                   /* KEYS, white keys; out on ch 2, keys on ch 1 */
+    int sent_on = 0;
+    for (int round = 0; round < 4; round++) {
+        ev_n = 0;
+        send(e, s, 0x90, 60 + 2 * round, 100); run(e, s, 1);   /* a quick tap: on, off a block later */
+        send(e, s, 0x80, 60 + 2 * round, 0); run(e, s, 1);
+        int n = ev_n, echo[64][3];
+        memcpy(echo, ev, sizeof echo[0] * (n < 64 ? n : 64));
+        sent_on = ons();
+        run(e, s, 140);                              /* 400 ms later, the echoes */
+        for (int i = 0; i < n && i < 64; i++) {   /* spread out, as they arrive on the device */
+            send(e, s, (echo[i][2] ? 0x90 : 0x80) | echo[i][0], echo[i][1], echo[i][2]);
+            run(e, s, 1);
+        }
+        CHECK(ev_n == n, "late echo round %d plays nothing (%d events, want %d)", round, ev_n, n);
+    }
+    CHECK(sent_on >= 3, "a tap plays a chord (%d)", sent_on);
+    e->get_param(s, "status", buf, sizeof buf); CHECK(strstr(buf, "SAME CH") == NULL, "no clash from late echoes '%s'", buf);
+    /* the keys still work afterwards, on their own channel */
+    ev_n = 0;
+    send(e, s, 0x90, 65, 100); run(e, s, 1);
+    CHECK(ons() >= 3, "a key after the late echoes plays its chord (%d on)", ons());
+    send(e, s, 0x80, 65, 0); run(e, s, 1);
+    CHECK(offs() == ons(), "and releases it (%d off, %d on)", offs(), ons());
+    e->destroy(s);
+}
+
 int main(void) {
 #ifdef HAVE_ALSA
     CHECK(sizeof(snd_seq_event_t) == 28, "snd_seq_event_t is %zu bytes", sizeof(snd_seq_event_t));
@@ -653,6 +688,7 @@ int main(void) {
     test_buttons();
     test_engine();
     test_perform();
+    test_late_echo();
     printf("%s\n", fails ? "FAILED" : "PASSED");
     return fails ? 1 : 0;
 }

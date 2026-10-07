@@ -21,7 +21,8 @@
 #define TAP_MS 600            /* a screen tap holds its chord this long */
 #define QUIET_MS 500          /* ignore slot "taps" this long after create/state load (host restoring values) */
 #define NUM_IDS (128 + NUM_SLOTS)   /* input notes, then one id per screen slot */
-#define ECHO_MS 250           /* our own note coming back this soon is an echo, not a key (see midi()) */
+#define ECHO_MS 250           /* our own note coming back this soon on the keys' own channel is an echo, not a key (see midi()) */
+#define LATE_MS 2000          /* on any other channel, this late still: MPC under load returned echoes after 400 ms and more */
 #define MAX_OUT 32            /* notes one held chord can send (a harp runs a chord up four octaves) */
 /* PERFORM: how a held chord plays. CHORD = all together (spread by STRUM), SLOP = each note late by a random
  * part of STRUM, ARP = one note at a time at RATE, HARP = up four octaves at a quarter of RATE, PATTERN = the
@@ -126,23 +127,28 @@ static void slot_chord(const inst_t *s, int slot, chord_t *c) { source_chord(s, 
 static int flats(const inst_t *s) { return key_uses_flats(s->p[P_KEY], s->p[P_SOURCE] == SRC_SCALE ? s->p[P_SCALE] : SCALE_MAJOR); }
 
 #define ECHO_FRAMES ((long)ECHO_MS * SR / 1000)
+#define LATE_FRAMES ((long)LATE_MS * SR / 1000)
 
 /* every note out goes through here, so the echo filter knows what may come back */
 static void send(inst_t *s, int ch, int n, int vel) {
     unsigned char *pend = vel ? s->pend_on[ch] : s->pend_off[ch];
     long *at = vel ? s->on_at[ch] : s->off_at[ch];
-    if (s->now - at[n] > ECHO_FRAMES) pend[n] = 0;   /* the earlier ones never came back (port not enabled) */
+    if (s->now - at[n] > LATE_FRAMES) pend[n] = 0;   /* the earlier ones never came back (port not enabled) */
     if (pend[n] < 255) pend[n]++;
     at[n] = s->now;
     seq_out_note(ch, n, vel);
 }
 
 /* an incoming note that is our own coming back (same channel and note, moments later): swallow it, once per
- * note we sent. The channel keeps a key played on another one from being taken for an echo. */
+ * note we sent. The channel keeps a key played on another one from being taken for an echo. How late an echo
+ * can be: on a channel the keys don't use, up to LATE_MS, since nothing else arrives there (a late echo let
+ * through played as a key: a quick tap's echoes came back after its release, each started a chord, and those
+ * echoed again, a pile of chords that clipped and stalled MPC); on the keys' own channel only ECHO_MS, so a key
+ * repeating a note we just sent is not held back long. */
 static int echoed(inst_t *s, int ch, int n, int on) {
     unsigned char *pend = on ? s->pend_on[ch] : s->pend_off[ch];
     long *at = on ? s->on_at[ch] : s->off_at[ch];
-    if (!pend[n] || s->now - at[n] > ECHO_FRAMES) return 0;
+    if (!pend[n] || s->now - at[n] > (ch == s->in_ch ? ECHO_FRAMES : LATE_FRAMES)) return 0;
     /* on the keys' own channel (MIDI OUT set to it) a key and an echo look alike: there an echoed on must
      * still be sounding, and a held key let go is a key whatever we sent */
     if (ch == s->in_ch && (on ? !s->ref[ch][n] : s->held[n].active)) return 0;
