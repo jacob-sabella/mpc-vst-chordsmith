@@ -18,12 +18,12 @@ on:
 
 jobs:
   vst:
-    uses: sd88me/mpc-vst-plugins/.github/workflows/vst-release.yml@9f5f91a14dfe7a57b5ac25f86a461c6539f82ba1
+    uses: sd88me/mpc-vst-plugins/.github/workflows/vst-release.yml@97a2effca4114dd00f738b018e2f0d1d3ccb2d7f
     permissions: { contents: write }
     with:
       tag: chordsmith-vst-v${{ inputs.version }}
       version: ${{ inputs.version }}
-      tools_ref: 9f5f91a14dfe7a57b5ac25f86a461c6539f82ba1
+      tools_ref: 97a2effca4114dd00f738b018e2f0d1d3ccb2d7f
       vst_dir: vst
       build: SHADOW_SKIN_MPC_OS=2 vst/build.sh
       host_test: vst/test.sh
