@@ -2,8 +2,8 @@
 
 > **MPC OS.** From 1.0.2, this works on **MPC OS 2.x and 3.x**: its skin is written in the MPC OS 2.x format, which 3.x reads
 > too. The skin is checked against MPC OS 2.15.1's own skins; it has not been tried on a 2.x unit yet. The
-> [catalog](https://sd88me.github.io/mpc-vst-plugins/) shows which MPC OS each release works on. Earlier releases are 3.x only.
-> See [MPC OS 2.x vs 3.x](https://github.com/sd88me/mpc-vst-plugins#mpc-os-2x-vs-3x) in the main repo.
+> [catalog](https://open-mpc.github.io/) shows which MPC OS each release works on. Earlier releases are 3.x only.
+> See [MPC OS 2.x vs 3.x](https://github.com/open-mpc/mpc-vst-plugins#mpc-os-2x-vs-3x) in the main repo.
 
 A chord tool for Akai MPC OS standalone devices (MPC Live/One/X/Key, Force), built as a native VST2
 instrument for MPC's own plugin host, with its own screen skin and Q-Links. Pick a key and scale (or a
@@ -88,7 +88,7 @@ the pad buttons.
 ## Building
 
 Needs Docker (with QEMU for arm32v7) and a checkout of
-[mpc-vst-plugins](https://github.com/sd88me/mpc-vst-plugins) next to this repo (or `MPC_VST=/path`).
+[mpc-vst-plugins](https://github.com/open-mpc/mpc-vst-plugins) next to this repo (or `MPC_VST=/path`).
 
 ```sh
 vst/test.sh    # offline: theory and engine tests, then mpc-vst-plugins' host test (x86, ASan/UBSan)
