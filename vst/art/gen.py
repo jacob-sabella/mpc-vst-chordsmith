@@ -3,7 +3,7 @@
 
 Draws once at 8x of 270x110, then downsamples (LANCZOS) to 540x220 and 270x110 so edges stay clean.
 Run (host python has no Pillow):
-  docker run --rm -u $(id -u):$(id -g) -v $PWD:/w -v ~/Projects/mpc-vst-nam/vst/fonts:/fonts:ro -w /w \
+  docker run --rm -u $(id -u):$(id -g) -v $PWD:/w -v ~/Projects/mpc/plugins/mpc-vst-nam/vst/fonts:/fonts:ro -w /w \
     python:3.11-slim sh -c 'pip -q install pillow --target /tmp/p && PYTHONPATH=/tmp/p python3 gen.py'
 Font: Titillium Web SemiBold (SIL OFL 1.1). Override with FONT=/path/to.ttf.
 """
